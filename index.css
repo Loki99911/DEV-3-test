@@ -112,9 +112,6 @@ h1 {
 
 .leterElem {
   display: inline-block;
-  /* border: 1px solid red; */
-  /* border-radius: 3px; */
-  /* padding: 3px; */
   font-size: 48px;
   line-height: 1;
 }

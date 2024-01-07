@@ -10,7 +10,7 @@ const renderText = (e) => {
     return leterElem;
   });
   wordHolder.append(...word);
-  
+
 };
 
 export default renderText;

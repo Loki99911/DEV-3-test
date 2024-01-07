@@ -1,14 +1,12 @@
 function selection() {
-  
   let isSelecting = false;
   let isCtrlActive = false;
   let startCoords = { x: 0, y: 0 };
   let endCoords = { x: 0, y: 0 };
 
   function startSelection(event) {
-    // console.log("SELECTION");
     const elements = document.querySelectorAll(".leterElem");
-    if ((event.target.className === "leterElem" && !isCtrlActive)) return;
+    if (event.target.className === "leterElem" && !isCtrlActive) return;
     if (isCtrlActive) {
       return event.target.classList.contains("selected")
         ? event.target.classList.remove("selected")
@@ -68,7 +66,6 @@ function selection() {
         // Удаляем класс выделения
         element.classList.remove("selected");
       }
-      // }
     });
   }
 

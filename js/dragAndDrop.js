@@ -1,5 +1,4 @@
 const dragAndDrop = () => {
-  // console.log("DRAG&DROP");
   const leters = document.querySelectorAll(".leterElem");
   const dropField = document.querySelector(".wordHolder");
 
@@ -9,9 +8,6 @@ const dragAndDrop = () => {
   });
 
   dropField.addEventListener("dragover", dragOver);
-  dropField.addEventListener("dragenter", dragEnter);
-  dropField.addEventListener("dragleave", dragLeave);
-  dropField.addEventListener("drop", drop);
 
   let draggedLeters = [];
   let relativePositions = [];
@@ -47,7 +43,6 @@ const dragAndDrop = () => {
   }
 
   function dragEnd(e) {
-    // console.log(e);
     const deltaX = e.clientX - startMouseX;
     const deltaY = e.clientY - startMouseY;
     draggedLeters.forEach((el, index) => {
@@ -70,16 +65,7 @@ const dragAndDrop = () => {
 
   function dragOver(e) {
     dropToElement = e.target.classList.contains("leterElem") ? e.target : null;
-    // if (!draggedShip) return;
     e.preventDefault();
   }
-
-  function dragEnter(e) {
-    e.preventDefault();
-  }
-
-  function dragLeave() {}
-
-  function drop(e) {}
 };
 export default dragAndDrop;
