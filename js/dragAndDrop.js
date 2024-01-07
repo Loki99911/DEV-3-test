@@ -1,4 +1,5 @@
 const dragAndDrop = () => {
+  // console.log("DRAG&DROP");
   const leters = document.querySelectorAll(".leterElem");
   const dropField = document.querySelector(".wordHolder");
 
@@ -12,23 +13,42 @@ const dragAndDrop = () => {
   dropField.addEventListener("dragleave", dragLeave);
   dropField.addEventListener("drop", drop);
 
-  let draggedLeter = null;
+  let draggedLeters = [];
+  let startMouseX;
+  let startMouseY;
 
   function dragStart(e) {
     // e.dataTransfer.setDragImage(this, 25, 25);
-    console.log("START");
-    draggedLeter = this;
-    this.classList.add("selected");
+    const selectedElems = document.querySelectorAll(".selected");
+    const rect = e.target.getBoundingClientRect();
+      startMouseX = e.clientX;
+      startMouseY = e.clientY;  
+    if (selectedElems.length === 0) {
+      draggedLeters.push(this);
+      this.classList.add("selected");
+    } else {
+      draggedLeters.push(...selectedElems);
+    }
   }
 
   function dragEnd(e) {
-    console.log("End");
-    // console.log(e);
-    draggedLeter.style.position = "absolute";
-    draggedLeter.style.left = e.clientX + "px";
-    draggedLeter.style.top = e.clientY + "px";
-    draggedLeter.classList.remove("selected");
-    draggedLeter = null;
+    const deltaX = e.clientX - startMouseX;
+    const deltaY = e.clientY - startMouseY;
+    draggedLeters.forEach((el) => {
+      const rect = el.getBoundingClientRect();
+      el.style.position = "absolute";
+      el.style.left = rect.left + deltaX + "px";
+      el.style.top = rect.top + deltaY + "px";
+      el.classList.remove("selected");
+    });
+
+    // draggedLeters[0].style.position = "absolute";
+    // draggedLeters[0].style.left = e.clientX + "px";
+    // draggedLeters[0].style.top = e.clientY + "px";
+    // draggedLeters[0].classList.remove("selected");
+    startMouseX = 0;
+    startMouseY = 0;
+    draggedLeters = [];
   }
 
   function dragOver(e) {

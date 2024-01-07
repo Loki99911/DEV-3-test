@@ -6,5 +6,5 @@ const startBtn = document.querySelector(".startBtn");
 startBtn.addEventListener("click", () => {
   renderText();
   dragAndDrop();
+  selection();
 });
-selection();
