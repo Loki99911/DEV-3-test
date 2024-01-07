@@ -14,75 +14,72 @@ const dragAndDrop = () => {
   dropField.addEventListener("drop", drop);
 
   let draggedLeters = [];
+  let relativePositions = [];
   let startMouseX;
   let startMouseY;
+  let dropToElement;
 
   function dragStart(e) {
-    // e.dataTransfer.setDragImage(this, 25, 25);
+    e.dataTransfer.effectAllowed = "move";
     const selectedElems = document.querySelectorAll(".selected");
     const rect = e.target.getBoundingClientRect();
-      startMouseX = e.clientX;
-      startMouseY = e.clientY;  
+    startMouseX = e.clientX;
+    startMouseY = e.clientY;
+
     if (selectedElems.length === 0) {
       draggedLeters.push(this);
+      relativePositions.push({
+        x: rect.left,
+        y: rect.top,
+      });
       this.classList.add("selected");
     } else {
       draggedLeters.push(...selectedElems);
+      relativePositions = [];
+      selectedElems.forEach((el) => {
+        const rect = el.getBoundingClientRect();
+        relativePositions.push({
+          x: rect.left,
+          y: rect.top,
+        });
+      });
     }
   }
 
   function dragEnd(e) {
+    // console.log(e);
     const deltaX = e.clientX - startMouseX;
     const deltaY = e.clientY - startMouseY;
-    draggedLeters.forEach((el) => {
-      const rect = el.getBoundingClientRect();
+    draggedLeters.forEach((el, index) => {
       el.style.position = "absolute";
-      el.style.left = rect.left + deltaX + "px";
-      el.style.top = rect.top + deltaY + "px";
+      el.style.left = deltaX + relativePositions[index].x + "px";
+      el.style.top = deltaY + relativePositions[index].y + "px";
       el.classList.remove("selected");
+      if (dropToElement) {
+        dropToElement.style.position = "absolute";
+        dropToElement.style.left = relativePositions[index].x + "px";
+        dropToElement.style.top = relativePositions[index].y + "px";
+      }
     });
 
-    // draggedLeters[0].style.position = "absolute";
-    // draggedLeters[0].style.left = e.clientX + "px";
-    // draggedLeters[0].style.top = e.clientY + "px";
-    // draggedLeters[0].classList.remove("selected");
     startMouseX = 0;
     startMouseY = 0;
     draggedLeters = [];
+    relativePositions = [];
   }
 
   function dragOver(e) {
+    dropToElement = e.target.classList.contains("leterElem") ? e.target : null;
     // if (!draggedShip) return;
     e.preventDefault();
   }
 
   function dragEnter(e) {
-    // if (!draggedShip) return;
     e.preventDefault();
   }
 
-  function dragLeave() {
-    // if (!draggedShip) return;
-    // const startSquere = +this.getAttribute("id");
-    // shipAriaSelect(
-    //   shipDirection,
-    //   startSquere,
-    //   shipLength,
-    //   "shipAria",
-    //   "remove"
-    // );
-  }
+  function dragLeave() {}
 
-  function drop(e) {
-    // if (!draggedShip) return;
-    // let newElem = this;
-    // const shipDirection = draggedShip.style.flexDirection;
-    // const shipOnField = shipPut(shipLength, shipDirection, newElem, dropField);
-    // if (shipOnField) {
-    //   draggedShip.parentNode.nextElementSibling.querySelector(".ships_counter")
-    //     .textContent--;
-    //   btnDisabled();
-    // }
-  }
+  function drop(e) {}
 };
 export default dragAndDrop;
